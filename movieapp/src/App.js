@@ -1,8 +1,8 @@
-
+import Body from "./components/Body";
 function App() {
   return (
-    <div className="bg-green-400">
-      let's build application
+    <div>
+      <Body />
     </div>
   );
 }
