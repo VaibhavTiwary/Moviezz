@@ -1,20 +1,66 @@
 import React, { useState } from 'react'
 import Header from './Header'
+import axios from "axios";
+import { API_END_POINT } from '../utils/constant';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+
 
 function Login() {
     const [isLogin, setIsLogin] = useState(false);
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
 
     const loginHandler = () => {
         setIsLogin(!isLogin)
     }
 
-    const getInputData = (e) => {
+    const getInputData = async (e) => {
         e.preventDefault();    //page will not get reloaded on clicking signup or login button using this
-        console.log(fullName, email, password)
+        if (isLogin) {
+            const user = { email, password };
+            try {
+                const res = await axios.post(`${API_END_POINT}/login`, user, {
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
+                    withCredentials: true
+                });
+
+                console.log(res);
+                if (res.data.success) {
+                    toast.success(res.data.message);
+                }
+                navigate("/browse");
+            } catch (error) {
+                toast.error(error.response.data.message);
+                console.log(error);
+            }
+
+
+        } else {
+            // const user = { fullName, email, password };
+            try {
+                const res = await axios.post(`${API_END_POINT}/register`, { fullName, email, password }, {
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
+                    withCredentials: true
+                });
+                console.log(res);
+                if (res.data.success) {
+                    toast.success(res.data.message);
+                }
+                setIsLogin(true);
+
+            } catch (error) {
+                toast.error(error.response.data.message);
+                console.log(error);
+            }
+        }
         setFullName("")
         setEmail("")
         setPassword("")
