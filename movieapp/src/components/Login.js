@@ -4,6 +4,9 @@ import axios from "axios";
 import { API_END_POINT } from '../utils/constant';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading, setUser } from '../Redux/userSlice';
+
 
 
 function Login() {
@@ -12,14 +15,17 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const isLoading = useSelector((store) => store.app.isLoading);
 
 
     const loginHandler = () => {
-        setIsLogin(!isLogin)
+        setIsLogin(!isLogin);
     }
 
     const getInputData = async (e) => {
         e.preventDefault();    //page will not get reloaded on clicking signup or login button using this
+        dispatch(setLoading(true))
         if (isLogin) {
             const user = { email, password };
             try {
@@ -30,18 +36,22 @@ function Login() {
                     withCredentials: true
                 });
 
-                console.log(res);
                 if (res.data.success) {
                     toast.success(res.data.message);
                 }
+                dispatch(setUser(res.data.user));
                 navigate("/browse");
             } catch (error) {
                 toast.error(error.response.data.message);
                 console.log(error);
+            } finally {
+                dispatch(setLoading(false));
             }
 
 
         } else {
+            //register
+            dispatch(setLoading(true));
             // const user = { fullName, email, password };
             try {
                 const res = await axios.post(`${API_END_POINT}/register`, { fullName, email, password }, {
@@ -50,7 +60,7 @@ function Login() {
                     },
                     withCredentials: true
                 });
-                console.log(res);
+
                 if (res.data.success) {
                     toast.success(res.data.message);
                 }
@@ -59,6 +69,8 @@ function Login() {
             } catch (error) {
                 toast.error(error.response.data.message);
                 console.log(error);
+            } finally {
+                dispatch(setLoading(false));
             }
         }
         setFullName("")
@@ -80,7 +92,7 @@ function Login() {
 
                     <input value={email} onChange={(e) => setEmail(e.target.value)} type='email' placeholder='Email' className='outline-none p-3 my-2 rounded-sm bg-gray-800 text-white'></input>
                     <input value={password} onChange={(e) => setPassword(e.target.value)} type='password' placeholder='Password' className='outline-none p-3 my-2 rounded-sm bg-gray-800 text-white'></input>
-                    <button className='bg-red-600 mt-6 p-3 text-white rounded-sm font-medium'>{isLogin ? "Login" : "Signup"}</button>
+                    <button className='bg-red-600 mt-6 p-3 text-white rounded-sm font-medium'>{`${isLoading ? "loading..." : (isLogin ? "Login" : "Signup")}`}</button>
                     <p className='text-white mt-2'>{isLogin ? "New to Moviezz?" : "Already have an account?"} <span onClick={loginHandler} className='ml-1 text-blue-900 cursor-pointer font-medium'>{isLogin ? "Signup" : "Login"}</span></p>
                 </div>
             </form>
