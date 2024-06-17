@@ -2,7 +2,9 @@ import React from 'react'
 
 function MovieContainer() {
     return (
-        <div>MovieContainer</div>
+        <div>
+
+        </div>
     )
 }
 

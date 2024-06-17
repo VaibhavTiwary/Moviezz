@@ -5,10 +5,10 @@ function VideoBackground() {
         <div className=' w-screen'>
             <iframe
                 className='w-screen aspect-video'
-                src="https://www.youtube.com/embed/k3g_WjLCsXM?si=7uqapefTOSD_atzI&autoplay=1&mute=1"
+                src="https://www.youtube.com/embed/xcJtL7QggTI?si=7uqapefTOSD_atzI&autoplay=1&mute=1"
                 title="YouTube video player"
                 frameborder="0"
-                allowfullscreen>
+                allowFullScreen>
 
             </iframe>
         </div>
