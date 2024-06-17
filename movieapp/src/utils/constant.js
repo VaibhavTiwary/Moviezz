@@ -30,5 +30,8 @@ export const options = {
 
 
 
-export const Now_Playing_Movie = 'https://imdb8.p.rapidapi.com/title/get-top-rated-movies?homeCountry=US&purchaseCountry=US&currentCountry=US';
+export const Most_Popular_Movies = 'https://imdb8.p.rapidapi.com/title/get-most-popular-movies?homeCountry=US&purchaseCountry=US&currentCountry=US';
+export const Popular_Movies_By_Genre = 'https://imdb8.p.rapidapi.com/title/v2/get-popular-movies-by-genre?genre=adventure&limit=100';
+export const Top_Rated_Movies = 'https://imdb8.p.rapidapi.com/title/get-top-rated-movies';
+export const Upcoming_Movies = 'https://imdb8.p.rapidapi.com/title/get-coming-soon-movies?homeCountry=US&purchaseCountry=US&currentCountry=US';
 // export const Now_Playing_Movie = "https://api.themoviedb.org/3/movie/now_playing";
